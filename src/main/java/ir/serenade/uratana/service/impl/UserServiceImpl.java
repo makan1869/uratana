@@ -1,5 +1,6 @@
 package ir.serenade.uratana.service.impl;
 
+import ir.serenade.uratana.domain.Role;
 import ir.serenade.uratana.domain.User;
 import ir.serenade.uratana.repository.RoleRepository;
 import ir.serenade.uratana.repository.UserRepository;
@@ -22,11 +23,26 @@ public class UserServiceImpl implements UserService{
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Override
-    public User save(User user) {
+    public User saveUser(User user) {
         if(user.isPasswordDirty()) {
             user.setEncryptedPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         }
         return userRepository.save(user);
+    }
+
+    @Override
+    public User findUserByUsername(String username) {
+        return userRepository.findByUsername(username);
+    }
+
+    @Override
+    public Role saveRole(Role role) {
+        return roleRepository.save(role);
+    }
+
+    @Override
+    public Role findRoleByName(String name) {
+        return roleRepository.findByName(name);
     }
 
     @Override
